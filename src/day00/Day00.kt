@@ -12,8 +12,8 @@ fun main() {
         return input.size
     }
 
-    check(part1(readInput("day00/test1")) == 0)
-    check(part2(readInput("day00/test2")) == 0)
+    check(part1(readInput("day00/test")) == 0)
+    check(part2(readInput("day00/test")) == 0)
 
     val input = readInput("day00/real")
     part1(input).println()
