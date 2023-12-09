@@ -27,3 +27,17 @@ fun <T> ArrayDeque<T>.removeFirstWhile(condition: (T) -> Boolean): List<T> {
     }
     return removedElements
 }
+
+fun gcd(a: Long, b: Long): Long = if (a == 0L) b else gcd(b % a, a)
+fun lcm(a: Long, b: Long): Long = a * b / gcd(a, b)
+
+fun lcm(numbers: List<Int>): Long {
+    var result = 1L
+
+    for (i in numbers.indices) {
+        result = lcm(numbers[i].toLong(), result)
+        if (result == 0L) return result
+    }
+
+    return result
+}
