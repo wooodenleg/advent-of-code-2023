@@ -2,6 +2,7 @@ import java.math.BigInteger
 import java.security.MessageDigest
 import kotlin.io.path.Path
 import kotlin.io.path.readLines
+import kotlin.math.hypot
 
 /**
  * Reads lines from the given input txt file.
@@ -41,3 +42,26 @@ fun lcm(numbers: List<Int>): Long {
 
     return result
 }
+
+enum class Direction(val offset: IntOffset) {
+    Up(IntOffset(0, -1)),
+    Right(IntOffset(1, 0)),
+    Down(IntOffset(0, 1)),
+    Left(IntOffset(-1, 0)),
+}
+
+data class IntOffset(val x: Int, val y: Int)
+
+operator fun IntOffset.plus(offset: IntOffset) = IntOffset(x + offset.x, y + offset.y)
+operator fun IntOffset.minus(offset: IntOffset) = IntOffset(x - offset.x, y - offset.y)
+fun IntOffset.distanceTo(offset: IntOffset): Int = hypot(offset.x - x.toFloat(), offset.y - y.toFloat()).toInt()
+operator fun IntOffset.plus(direction: Direction) = this + direction.offset
+fun IntOffset.getDiagonal(): List<IntOffset> = sequence {
+    var current = this@getDiagonal
+    while (current.x >= 0 && current.y >= 0) {
+        yield(current)
+        current -= IntOffset(1, 1)
+    }
+}.toList()
+
+fun List<Direction>.calculatePosition() = fold(IntOffset(0, 0)) { acc, dir -> acc + dir.offset }
