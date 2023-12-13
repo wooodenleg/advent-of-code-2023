@@ -51,6 +51,9 @@ enum class Direction(val offset: IntOffset) {
 }
 
 data class IntOffset(val x: Int, val y: Int)
+data class LongOffset(val x: Long, val y: Long)
+
+val IntOffset.inverted get() = IntOffset(y, x)
 
 operator fun IntOffset.plus(offset: IntOffset) = IntOffset(x + offset.x, y + offset.y)
 operator fun IntOffset.minus(offset: IntOffset) = IntOffset(x - offset.x, y - offset.y)
@@ -65,3 +68,11 @@ fun IntOffset.getDiagonal(): List<IntOffset> = sequence {
 }.toList()
 
 fun List<Direction>.calculatePosition() = fold(IntOffset(0, 0)) { acc, dir -> acc + dir.offset }
+
+fun <T> List<T>.getCombinations(): List<Pair<T, T>> {
+    val combinations = mutableListOf<Pair<T, T>>()
+    for (i in indices) {
+        for (j in i + 1 until size) combinations.add(Pair(this[i], this[j]))
+    }
+    return combinations
+}
